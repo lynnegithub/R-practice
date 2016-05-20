@@ -1,0 +1,11 @@
+sqldf("ATTACH 'Geese.sqlite' AS new")
+read.csv.sql("GooseWatchnew.csv",sql = " CREATE TABLE Geese AS SELECT * FROM file",dbname = "Geese.sqlite")
+record<-sqldf("SELECT * FROM Geese", dbname = "Geese.sqlite")
+long<-c(-80.54)
+lat<-c(43.475)
+uwaterloo<-data.frame(long,lat)
+mapFinal<-ggplot()
+mapFinal <- mapFinal + geom_polygon( data=uwaterloo, aes(x=long, y=lat),colour="white" )
+mapFinal <- mapFinal + geom_point( data=record, aes(x=longitude, y=latitude), color="coral1")
+mapFinal <- mapFinal + geom_text( data=record, hjust=0.5, vjust=-0.5, aes(x=longitude, y=latitude,label=location), colour="gold2", size=4 )
+mapFinal
